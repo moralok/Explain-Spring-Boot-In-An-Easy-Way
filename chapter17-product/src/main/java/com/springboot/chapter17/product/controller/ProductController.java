@@ -1,5 +1,7 @@
 package com.springboot.chapter17.product.controller;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.ribbon.proxy.annotation.Hystrix;
 import com.springboot.chapter17.product.pojo.UserPo;
 import com.springboot.chapter17.product.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -77,5 +78,24 @@ public class ProductController {
             result = userService.updateName(userName, id);
         }
         return result;
+    }
+
+    // Ribbon 断路
+    @GetMapping("/circuitBreaker1")
+    @HystrixCommand(fallbackMethod = "error")
+    public String circuitBreaker1() {
+        return restTemplate.getForObject("http://USER/timeout", String.class);
+    }
+
+    // Feign 断路测试
+    @GetMapping("/circuitBreaker2")
+    @HystrixCommand(fallbackMethod = "error")
+    public String circuitBreaker2() {
+        return userService.testTimeout();
+    }
+
+    // 降级服务方法
+    public String error() {
+        return "超时出错";
     }
 }

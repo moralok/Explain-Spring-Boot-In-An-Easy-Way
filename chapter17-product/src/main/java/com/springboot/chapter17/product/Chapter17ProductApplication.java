@@ -2,6 +2,7 @@ package com.springboot.chapter17.product;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
@@ -10,6 +11,8 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 // 启动 Feign
 @EnableFeignClients(basePackages = "com.springboot.chapter17.product")
+// 启动熔断器
+@EnableCircuitBreaker
 public class Chapter17ProductApplication {
 
     // 初始化 RestTemplate

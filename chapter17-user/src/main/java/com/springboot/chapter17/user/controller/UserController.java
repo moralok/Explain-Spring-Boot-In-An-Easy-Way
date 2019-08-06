@@ -61,4 +61,17 @@ public class UserController {
         map.put("message", "更新用户【" + id + "】名称【" + userName + "】成功");
         return map;
     }
+
+    @GetMapping("/timeout")
+    public String timeout() {
+        // 生成一个 3000 以内的随机数
+        long ms = (long) (3000L * Math.random());
+        try {
+            // 程序延迟，有一定的概率超过 2000 ms
+            Thread.sleep(ms);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return "熔断测试";
+    }
 }
