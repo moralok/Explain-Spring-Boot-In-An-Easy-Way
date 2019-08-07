@@ -21,14 +21,14 @@ public interface UserService {
     UserPo getUser(@PathVariable("id") Long id);
 
     // POST 方法请求用户微服务
-    @PostMapping("/insert")
+    @PostMapping("/user/insert")
     Map<String, Object> addUser(
             // 请求体参数
             @RequestBody UserPo user
     );
 
     // POST 方法请求用户微服务
-    @PostMapping("/update/{userName}")
+    @PostMapping("/user/update/{userName}")
     Map<String, Object> updateName(
             // URL 参数
             @PathVariable("userName") String userName,
@@ -37,6 +37,6 @@ public interface UserService {
     );
 
     // 调用用户微服务的 timeout 请求
-    @GetMapping("/timeout")
+    @GetMapping("/user/timeout")
     String testTimeout();
 }

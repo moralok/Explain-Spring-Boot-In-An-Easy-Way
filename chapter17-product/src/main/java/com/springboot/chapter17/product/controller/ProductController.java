@@ -90,7 +90,7 @@ public class ProductController {
                 )
             })
     public String circuitBreaker1() {
-        return restTemplate.getForObject("http://USER/timeout", String.class);
+        return restTemplate.getForObject("http://USER/user/timeout", String.class);
     }
 
     // Feign 断路测试
