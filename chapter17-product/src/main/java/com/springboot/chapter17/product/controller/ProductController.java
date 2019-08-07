@@ -1,7 +1,7 @@
 package com.springboot.chapter17.product.controller;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
-import com.netflix.ribbon.proxy.annotation.Hystrix;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import com.springboot.chapter17.product.pojo.UserPo;
 import com.springboot.chapter17.product.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,7 +82,13 @@ public class ProductController {
 
     // Ribbon 断路
     @GetMapping("/circuitBreaker1")
-    @HystrixCommand(fallbackMethod = "error")
+    @HystrixCommand(fallbackMethod = "error",
+            commandProperties = {
+                @HystrixProperty(
+                        name = "execution.isolation.thread.timeoutInMilliseconds",
+                        value = "30000"
+                )
+            })
     public String circuitBreaker1() {
         return restTemplate.getForObject("http://USER/timeout", String.class);
     }
